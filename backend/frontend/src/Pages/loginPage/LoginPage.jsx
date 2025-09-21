@@ -8,7 +8,7 @@ import { setUser, setLoading, setError, clearError } from "../../store/slices/au
 let apiUrl =
   import.meta.env.VITE_NODE_ENV === "production"
     ? import.meta.env.VITE_API_BASE_URL
-    : "http://localhost:3000";
+    : "http://localhost:3001";
 const LoginPage = () => {
   const [selectedRole, setSelectedRole] = useState(null);
   const navigate = useNavigate();
@@ -72,8 +72,7 @@ const LoginPage = () => {
           >
             <p>I'm a Student</p>
             <span>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry
+              Students can participate in polls and view live results.
             </span>
           </div>
           <div

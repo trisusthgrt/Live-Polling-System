@@ -9,7 +9,7 @@ import { setPollHistory, setLoading, setError } from "../../store/slices/pollSli
 let apiUrl =
   import.meta.env.VITE_NODE_ENV === "production"
     ? import.meta.env.VITE_API_BASE_URL
-    : "http://localhost:3000";
+    : "http://localhost:3001";
 const socket = io(apiUrl);
 
 const PollHistoryPage = () => {

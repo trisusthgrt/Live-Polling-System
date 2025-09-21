@@ -4,8 +4,11 @@
   "type": "module",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "start": "nodemon src/app.js",
+    "dev": "concurrently \"nodemon src/app.js\" \"npm run dev --prefix frontend\"",
+    "dev:backend": "nodemon src/app.js",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
@@ -14,9 +17,13 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "intervue-assignment-backend": "file:",
     "live-polling-system": "file:..",
     "mongoose": "^8.7.0",
     "nodemon": "^3.1.7",
     "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

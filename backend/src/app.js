@@ -16,18 +16,18 @@ import { validateSession } from "./middleware/auth.js";
 dotenv.config();
 
 const app = express();
-const __dirname = path.resolve();
+
 
 
 app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const DB =
   process.env.NODE_ENV === "production"
-    ? process.env.MONGODB_URI
-    : "mongodb://localhost:27017/intevuePoll";
+    ? process.env.MONGODB_URL
+    : "mongodb+srv://tripathysushobhan_db_user:gQn9Q4vqGoc0h9kf@cluster0.r6xua5b.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" ;
 
 mongoose
   .connect(DB)
@@ -260,10 +260,11 @@ app.get("/polls/:teacherUsername", validateSession, (req, res) => {
 
 // make ready for deployment
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  const dirPath= path.resolve();
+  app.use(express.static("./frontend/dist"));
 
-  app.get("*", (_, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(dirPath, './frontend','index.html'));
   });
 }
 
