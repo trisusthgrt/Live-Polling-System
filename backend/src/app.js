@@ -1,18 +1,24 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const http = require("http");
-require("dotenv").config();
-const { Server } = require("socket.io");
-const { TeacherLogin } = require("./controllers/login");
-const {
+import path from "path";
+import express from "express";
+import cors from "cors";
+import mongoose from "mongoose";
+import http from "http";
+import dotenv from "dotenv";
+import { Server } from "socket.io";
+import { TeacherLogin } from "./controllers/login.js";
+import {
   createPoll,
   voteOnOption,
   getPolls,
-} = require("../src/controllers/poll");
-const { validateSession } = require("./middleware/auth");
+} from "./controllers/poll.js";
+import { validateSession } from "./middleware/auth.js";
+
+dotenv.config();
 
 const app = express();
+const __dirname = path.resolve();
+
+
 app.use(cors());
 app.use(express.json());
 
@@ -20,7 +26,7 @@ const port = process.env.PORT || 3000;
 
 const DB =
   process.env.NODE_ENV === "production"
-    ? process.env.MONGODB_URL
+    ? process.env.MONGODB_URI
     : "mongodb://localhost:27017/intevuePoll";
 
 mongoose
@@ -251,6 +257,15 @@ app.post("/teacher-login", (req, res) => {
 app.get("/polls/:teacherUsername", validateSession, (req, res) => {
   getPolls(req, res);
 });
+
+// make ready for deployment
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get("*", (_, res) => {
+    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+  });
+}
 
 server.listen(port, () => {
   console.log(`Server running on port ${port}...`);

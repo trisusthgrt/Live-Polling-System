@@ -1,7 +1,7 @@
-const Teacher = require("../models/teacher");
+import Teacher from "../models/teacher.js";
 
 // Simple session validation middleware
-const validateSession = (req, res, next) => {
+export const validateSession = (req, res, next) => {
   const username = req.headers['x-username'] || req.body.username || req.query.username;
   
   if (!username) {
@@ -29,5 +29,5 @@ const validateSession = (req, res, next) => {
   }
 };
 
-module.exports = { validateSession };
+// Export is already done above with export const
 

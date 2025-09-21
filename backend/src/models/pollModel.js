@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const optionSchema = new mongoose.Schema({
   id: Number,
@@ -17,4 +17,4 @@ const pollSchema = new mongoose.Schema({
 
 const Poll = mongoose.model("Poll", pollSchema);
 
-module.exports = Poll;
+export default Poll;
