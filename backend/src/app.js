@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import http from "http";
 import dotenv from "dotenv";
 import { Server } from "socket.io";
+import { fileURLToPath } from "url";
 import { TeacherLogin } from "./controllers/login.js";
 import {
   createPoll,
@@ -13,7 +14,10 @@ import {
 } from "./controllers/poll.js";
 import { validateSession } from "./middleware/auth.js";
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const app = express();
 
@@ -246,27 +250,31 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("Polling System Backend");
-});
-
 app.post("/teacher-login", (req, res) => {
   TeacherLogin(req, res);
+});
+
+app.post("/student-login", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "Login successful",
+    username: req.body.username,
+    role: "student",
+  });
 });
 
 app.get("/polls/:teacherUsername", validateSession, (req, res) => {
   getPolls(req, res);
 });
 
-// make ready for deployment
-if (process.env.NODE_ENV === "production") {
-  const dirPath= path.resolve();
-  app.use(express.static("./frontend/dist"));
+// Serve frontend files
+const frontendPath = path.join(__dirname, "..", "frontend", "dist");
+app.use(express.static(frontendPath));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(dirPath, './frontend','index.html'));
-  });
-}
+// Catch all handler: send back React's index.html file for any non-API routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
 
 server.listen(port, () => {
   console.log(`Server running on port ${port}...`);
