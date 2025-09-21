@@ -3,6 +3,7 @@ services:
     name: live-polling-system
     env: node
     plan: free
+    rootDir: backend
     buildCommand: npm run build
     startCommand: npm start
     envVars:
