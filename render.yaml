@@ -10,6 +10,6 @@ services:
       - key: NODE_ENV
         value: production
       - key: MONGODB_URL
-        value: mongodb+srv://tripathysushobhan_db_user:uXbgyfA857OOb3yj@cluster0.s0cemno.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+        value: mongodb string
       - key: PORT
         value: 3001
