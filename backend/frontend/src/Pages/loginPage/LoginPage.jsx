@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { setUser, setLoading, setError, clearError } from "../../store/slices/authSlice";
 let apiUrl =
   import.meta.env.VITE_NODE_ENV === "production"
-    ? import.meta.env.VITE_API_BASE_URL
+    ? "https://live-polling-system-sg0o.onrender.com"
     : "http://localhost:3001";
 const LoginPage = () => {
   const [selectedRole, setSelectedRole] = useState(null);

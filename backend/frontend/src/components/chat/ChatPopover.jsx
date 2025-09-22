@@ -18,7 +18,7 @@ import {
 
 let apiUrl =
   import.meta.env.VITE_NODE_ENV === "production"
-    ? import.meta.env.VITE_API_BASE_URL
+    ? "https://live-polling-system-sg0o.onrender.com"
     : "http://localhost:3001";
 const socket = io(apiUrl);
 
